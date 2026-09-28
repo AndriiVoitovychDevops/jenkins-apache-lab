@@ -1,4 +1,8 @@
-.vagrant
-/.ssh
+.vagrant/
 reports/
 build/
+# SSH keys - never commit private keys
+id_*
+jenkins_web
+*.pem
+*.key
