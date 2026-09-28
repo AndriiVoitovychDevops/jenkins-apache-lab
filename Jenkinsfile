@@ -35,7 +35,7 @@ pipeline {
         stage('Smoke test') {
             steps {
                 sh '''
-			for $host in $TARGET_HOSTS; do
+			for host in $TARGET_HOSTS; do
                               echo "=== $host ==="
                               code=$(curl -s -o /dev/null -w '%{http_code}' http://$host)
 				echo "$host -> HTTP $code"
