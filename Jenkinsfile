@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Validate scripts') {
             steps {
-		sh 'for f in scripts/*.sh; do bash -n "$f" && echo "OK: $f"; done
+		sh 'for f in scripts/*.sh; do bash -n "$f" && echo "OK: $f"; done'
             }
         }
 
