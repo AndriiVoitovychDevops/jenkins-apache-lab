@@ -5,10 +5,9 @@
 HOST="${1:?Usage: $0 <host>}"
 BASE="http://$HOST"
 
-# Функція: перший аргумент - опис, решта - аргументи для curl
 req() {
     local desc="$1"
-    shift                          # прибрати опис, лишити аргументи curl
+    shift 
     local code
     code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$@")
     echo "$desc -> $code"
