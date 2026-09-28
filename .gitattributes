@@ -1,5 +1,5 @@
 * text=auto
 *.txt text
-*.c text
-*.h text
-*.jpg binary
+*.sh eol=lf
+Jenkinsfile* eol=lf
+Vagrantfile eol=lf
