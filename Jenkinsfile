@@ -32,6 +32,21 @@ pipeline {
             }
         }
 
+	stage('Deploy config') {
+            steps {
+                sshagent(credentials: [env.SSH_CRED]) {
+                    sh '''
+                         for host in $TARGET_HOSTS; do
+                              echo "=== Deploying config on $host ==="
+				scp conf/lab-errors.conf $SSH_USER@$host:/tmp/
+                              ssh $SSH_USER@$host 'sudo bash -s' < scripts/deploy_config.sh
+                        done
+                    '''
+                }
+            }
+        }
+
+
         stage('Smoke test') {
             steps {
                 sh '''

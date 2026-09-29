@@ -27,4 +27,10 @@ req "400 request without host" -H 'Host:' "$BASE/"
 LONG=$(head -c 9000 /dev/zero | tr '\0' 'a')
 req "414 URI too long" "$BASE/$LONG"
 
+req "403 forbidden" "$BASE/private"
+
+req "500 internal error" "$BASE/error500"
+
+req "503 service unavailable" "$BASE/error503"
+
 echo "=== done ==="
