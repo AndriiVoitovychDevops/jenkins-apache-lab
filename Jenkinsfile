@@ -62,9 +62,37 @@ pipeline {
                 '''
             }
         }
-    }
+	
+	 stage('Generate fake requests') {
+            steps {
+                sh '''
+                        for host in $TARGET_HOSTS; do
+				bash scripts/fake_requests.sh $host
+                        done
+                '''
+            }
+        }
+	
+	 stage('Analyze logs') {
+            steps {
+		sshagent(credentials: [env.SSH_CRED]) {
+                    sh '''
+                        mkdir -p reports
+                        for host in $TARGET_HOSTS; do
+                            ssh $SSH_USER@$host 'sudo bash -s' < scripts/check_logs.sh > reports/apache-$host.txt
+                            cat reports/apache-$host.txt
+                        done
+                    '''
+                }
+            }
+        }
+
+    }	
 
     post {
+	always {
+            archiveArtifacts artifacts: 'reports/*.txt', allowEmptyArchive: true
+        }
 	success { echo 'Apache installed and responding on all hosts' }
 	failure { echo 'Pipeline failed - check the stage marked red' }
     }
